@@ -1,20 +1,32 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {Component} from 'react';
+import {View, StyleSheet} from 'react-native';
+import IconButton from 'react-native-vector-icons/Entypo';
 import {tabName} from '../../configs/navigationConstants';
 import Screen from '../../screens';
 import {COLORS} from '../../themes';
 const BottomTab = createBottomTabNavigator();
-const tabBarIcon = () => {
-  return <Text></Text>;
+const tabBarIcon = ({route: {name}, size, focused}) => {
+  const icons = {
+    HomeTab: 'home',
+    StreamTab: 'game-controller',
+    ProfileTab: 'user',
+  };
+  const backgroundColor = focused ? COLORS.lightPurple : 'transparent';
+  return (
+    <View style={[{backgroundColor}, styles.tabBarIcon]}>
+      <IconButton name={icons[name]} size={size} color={COLORS.opacityWhite} />
+    </View>
+  );
 };
-const screenOptions = () => ({
+const screenOptions = ({route}) => ({
   headerShown: false,
   tabBarShowLabel: false,
   tabBarStyle: {
     backgroundColor: COLORS.lightBack,
     borderTopColor: COLORS.lightBack,
   },
-  // tabBarIcon: tabBarIcon,
+  tabBarIcon: params => tabBarIcon({...params, route}),
 });
 export default class HomeTab extends Component {
   render() {
@@ -36,3 +48,13 @@ export default class HomeTab extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  tabBarIcon: {
+    width: '50%',
+    height: '80%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 25,
+  },
+});
