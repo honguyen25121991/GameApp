@@ -1,18 +1,19 @@
-import {Text, View, Image} from 'react-native';
+import {View, Image} from 'react-native';
 import React, {Component} from 'react';
+import {Text} from '../../components';
 
 export default class StreamSreens extends Component {
   render() {
     return (
       <View>
-        <Text>StreamSreens1</Text>
+        <Text>StreamSreens</Text>
         <Image
           source={{
-            uri: 'http://10.0.2.2:3000/images/Alto_0.png',
+            uri: 'http://localhost:3000/images/Alto_0.png',
           }}
-          style={{width: '100%', height: 200}}
+          style={{width: '100%', height: 200, backgroundColor: '#bbb'}}
         />
-        <Text>12435</Text>
+        <Text>12435111</Text>
       </View>
     );
   }

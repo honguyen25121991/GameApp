@@ -5,13 +5,14 @@ import axios from 'axios';
 import GameItems from './components/GameItems';
 import {Screen} from 'react-native-screens';
 import {stackName} from '../../configs/navigationConstants';
+import {mapLocalHostToIp} from '../../ultils';
 
 export default class HomeScreen extends Component {
   state = {
     loading: true,
     listGame: [],
   };
-  renderLeftComponent = (
+  LeftComponent = (
     <View>
       <Text header>
         Hello <Text bold> CyberSoft,</Text>
@@ -24,7 +25,11 @@ export default class HomeScreen extends Component {
   };
   componentDidMount() {
     axios({method: 'GET', url: 'http://10.0.2.2:3000/games'})
-      .then(res => this.setState({listGame: res.data, loading: false}))
+      .then(res => {
+        const listGame = mapLocalHostToIp(res.data);
+        console.log(listGame);
+        this.setState({listGame: res.data, loading: false});
+      })
       .catch(err => console.error(err));
   }
   render() {
@@ -33,7 +38,7 @@ export default class HomeScreen extends Component {
     return (
       <BackgroundView>
         <Header
-          LeftComponent={this.renderLeftComponent}
+          LeftComponent={this.LeftComponent}
           RightComponent={<View style={styles.avatar} />}
         />
         <FlatList

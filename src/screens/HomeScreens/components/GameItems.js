@@ -11,6 +11,7 @@ export default class GameItems extends Component {
       loading,
     } = this.props;
     const backgroundImage = preview ? preview[0] : undefined;
+
     return (
       <View style={styles.container}>
         <Image
@@ -24,7 +25,7 @@ export default class GameItems extends Component {
           style={[styles.bannerContainer, {backgroundColor}]}>
           <Image
             source={{
-              uri: 'icon',
+              uri: icon,
             }}
             style={styles.gameIcon}
           />
@@ -42,7 +43,7 @@ export default class GameItems extends Component {
 
 const styles = StyleSheet.create({
   container: {zIndex: 1},
-  ImagesBackground: {width: sWidth, height: 200, backgroundColor: '#bbf'},
+  ImagesBackground: {width: sWidth, height: 200},
   bannerContainer: {
     position: 'absolute',
     bottom: -40,
@@ -59,7 +60,6 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 8,
-    backgroundColor: '#bfb',
   },
   titleContainer: {width: '80%'},
 });

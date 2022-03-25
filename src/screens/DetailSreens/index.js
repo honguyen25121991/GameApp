@@ -1,11 +1,17 @@
 import axios from 'axios';
 import React, {Component} from 'react';
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Platform,
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {BackgroundView, Header} from '../../components';
 import {COLORS} from '../../themes';
-import {sWidth} from '../../ultils';
+import {mapLocalHostToIp, sWidth} from '../../ultils';
 import {Text} from '../../components';
 
 export default class DetailSreens extends Component {
@@ -17,7 +23,11 @@ export default class DetailSreens extends Component {
       method: 'GET',
       url: `http://10.0.2.2:3000/games/${this.props.route.params.id}`,
     })
-      .then(res => this.setState({game: res.data}))
+      .then(res => {
+        const game = mapLocalHostToIp(res.data);
+        console.log(game);
+        this.setState({game: res.data});
+      })
       .catch(err => console.log(err));
   }
   render() {
