@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import {BackgroundView, Text, Header} from '../../components';
-import {View, StyleSheet, Image, Dimensions} from 'react-native';
+import {View, StyleSheet, Image, Dimensions, FlatList} from 'react-native';
 import axios from 'axios';
-const {height: sHeight, width: sWidth} = Dimensions.get('window');
+import GameItems from './components/GameItems';
+import {Screen} from 'react-native-screens';
+import {stackName} from '../../configs/navigationConstants';
 
 export default class HomeScreen extends Component {
   state = {
     loading: true,
-    game: {},
+    listGame: [],
   };
   renderLeftComponent = (
     <View>
@@ -17,19 +19,16 @@ export default class HomeScreen extends Component {
       <Text>Best Game for today</Text>
     </View>
   );
+  onPressGameItem = id => {
+    this.props.navigation.navigate(stackName.detailStack, {id});
+  };
   componentDidMount() {
     axios({method: 'GET', url: 'http://10.0.2.2:3000/games'})
-      .then(res => this.setState({game: res.data[0], loading: false}))
+      .then(res => this.setState({listGame: res.data, loading: false}))
       .catch(err => console.error(err));
   }
   render() {
-    console.log(this.state);
-    console.log(sWidth, sHeight);
-
-    const {
-      game: {title, subTitle, icon, preview, backgroundColor},
-      loading,
-    } = this.state;
+    const {listGame, loading} = this.state;
 
     return (
       <BackgroundView>
@@ -37,42 +36,18 @@ export default class HomeScreen extends Component {
           LeftComponent={this.renderLeftComponent}
           RightComponent={<View style={styles.avatar} />}
         />
-        {!loading && (
-          <View>
-            <Image
-              source={{
-                uri: preview[0],
-              }}
-              style={{width: sWidth, height: 200, backgroundColor: '#bbb'}}
+        <FlatList
+          data={listGame}
+          renderItem={({item}) => (
+            <GameItems
+              game={item}
+              onPress={() => this.onPressGameItem(item.id)}
             />
-            <View
-              style={{
-                flexDirection: 'row',
-                backgroundColor,
-                marginHorizontal: 20,
-                paddingHorizontal: 20,
-                paddingVertical: 15,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <Image
-                source={{
-                  uri: icon,
-                }}
-                style={{
-                  width: 70,
-                  height: 70,
-                  borderRadius: 8,
-                  backgroundColor: '#bbb',
-                }}
-              />
-              <View style={{width: '70%'}}>
-                <Text bold>{title}</Text>
-                <Text>{subTitle}</Text>
-              </View>
-            </View>
-          </View>
-        )}
+          )}
+          ItemSeparatorComponent={() => <View style={{height: 50}}></View>}
+          contentContainerStyle={{paddingBottom: 60}}
+          showsVerticalScrollIndicator={false}
+        />
       </BackgroundView>
     );
   }

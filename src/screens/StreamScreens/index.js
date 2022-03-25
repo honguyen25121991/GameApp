@@ -12,7 +12,7 @@ export default class StreamSreens extends Component {
           }}
           style={{width: '100%', height: 200}}
         />
-        <Text>1243</Text>
+        <Text>12435</Text>
       </View>
     );
   }

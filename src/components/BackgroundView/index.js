@@ -7,7 +7,7 @@ export default class BackgroundView extends Component {
   render() {
     const {children} = this.props;
     return (
-      <SafeAreaView style={styles.container} edges={['top']}>
+      <SafeAreaView style={styles.container} {...this.props}>
         <StatusBar barStyle="light-content" />
         {children}
       </SafeAreaView>

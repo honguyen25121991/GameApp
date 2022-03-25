@@ -4,10 +4,25 @@ import {COLORS} from '../../themes';
 
 export default class Text extends Component {
   render() {
-    const {children, color = COLORS.white, style, header, bold} = this.props;
+    const {
+      children,
+      color = COLORS.white,
+      style,
+      header,
+      title,
+      bold,
+      subText,
+    } = this.props;
     return (
       <RNText
-        style={[{color}, header && styles.header, bold && styles.bold, style]}>
+        style={[
+          {color},
+          header && styles.header,
+          bold && styles.bold,
+          title && styles.title,
+          subText && styles.subText,
+          style,
+        ]}>
         {children}
       </RNText>
     );
@@ -20,5 +35,11 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: 'bold',
+  },
+  title: {
+    fontSize: 22,
+  },
+  subText: {
+    opacity: 0.7,
   },
 });
